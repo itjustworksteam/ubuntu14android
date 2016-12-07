@@ -1,0 +1,12 @@
+language: java
+jdk: oraclejdk8
+sudo: required
+services:
+  - docker
+script:
+  - docker build -t therickys93/ubuntu14android .
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push therickys93/ubuntu14android;
+    fi
